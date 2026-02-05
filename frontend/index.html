@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expert System AI</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <div id="loader-overlay" class="loader-overlay">
+        <div class="emr-container">
+            <svg class="emr-signal" viewBox="0 0 500 100">
+                <path class="emr-path"
+                    d="M0 50 L40 50 L50 20 L60 80 L70 50 L120 50 L135 5 L150 95 L165 50 L180 50 L190 50 L200 0 L220 100 L240 50 L270 50 L280 20 L290 80 L300 50 L350 50 L365 5 L380 95 L395 50 L410 50 L420 50 L430 0 L450 100 L470 50 L500 50"
+                    fill="none" stroke="black" stroke-width="4" />
+            </svg>
+        </div>
+    </div>
+
+    <div class="logo">DeDoc</div>
+
+    <div class="logic-container hidden-initially">
+        <button id="logic-btn" class="fact-base-btn">
+            Medical Logic
+        </button>
+    </div>
+
+    <div class="fact-base-container hidden-initially">
+        <button id="fact-base-toggle" class="fact-base-btn">
+            Fact Base
+            <span class="icon">▼</span>
+        </button>
+        <div id="fact-base-content" class="fact-base-content hidden">
+            <h3>Known Facts</h3>
+            <ul id="facts-list">
+            </ul>
+            <h3>Deduced Facts</h3>
+            <ul id="deduced-list">
+            </ul>
+        </div>
+    </div>
+
+    <main class="container">
+        <div id="question-card" class="question-card">
+            <h1 id="question-text" class="question-text">Loading...</h1>
+
+            <div id="actions-container" class="actions">
+            </div>
+        </div>
+    </main>
+
+    <div id="logic-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Diagnostic Logic Reference</h2>
+                <button id="close-logic-modal" class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body-scroll">
+                <h3>Respiratory Diseases</h3>
+                <table class="logic-table">
+                    <thead>
+                        <tr>
+                            <th>Diagnosis</th>
+                            <th>Required Symptoms / Logic</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Influenza</strong></td>
+                            <td>Systemic Illness + Respiratory + Acute + Muscle Pain</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Pneumonia</strong></td>
+                            <td>Respiratory + High Fever + Breathlessness + Chest Pain</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Common Cold</strong></td>
+                            <td>Respiratory + Gradual Onset + NO Fever + NO Breathlessness</td>
+                        </tr>
+                        <tr>
+                            <td><strong>COVID-19</strong></td>
+                            <td>Fever + Dry Cough + Loss of Smell</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Vector-Borne Diseases</h3>
+                <table class="logic-table">
+                    <thead>
+                        <tr>
+                            <th>Diagnosis</th>
+                            <th>Required Symptoms / Logic</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Malaria</strong></td>
+                            <td>Fever + Chills + Sweating + (Mosquito OR Intermittent Fever)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dengue</strong></td>
+                            <td>Fever + Mosquito + Severe Headache + (Retro-Orbital OR Joint Pain)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Gastrointestinal</h3>
+                <table class="logic-table">
+                    <thead>
+                        <tr>
+                            <th>Diagnosis</th>
+                            <th>Required Symptoms / Logic</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Food Poisoning</strong></td>
+                            <td>GI Involvement + Sudden Onset + Unsafe Food</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Neurological</h3>
+                <table class="logic-table">
+                    <thead>
+                        <tr>
+                            <th>Diagnosis</th>
+                            <th>Required Symptoms / Logic</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Meningitis</strong></td>
+                            <td>Meningeal Signs + High Fever + Severe Headache</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Derived Clinical States</h3>
+                <table class="logic-table">
+                    <thead>
+                        <tr>
+                            <th>State</th>
+                            <th>Logic</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Acute Condition</strong></td>
+                            <td>Sudden Onset</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Systemic Illness</strong></td>
+                            <td>Fever + Fatigue</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Respiratory Inv.</strong></td>
+                            <td>Cough OR Shortness of Breath</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Meningeal Signs</strong></td>
+                            <td>Stiff Neck + Light Sensitivity</td>
+                        </tr>
+                        <tr>
+                            <td><strong>GI Involvement</strong></td>
+                            <td>Vomiting OR Diarrhea</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
