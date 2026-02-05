@@ -416,7 +416,7 @@ body {
     }
 
     .question-text {
-        font-size: 1.5rem;
+        font-size: 1rem;
         /* Also slightly reduce main question size for mobile */
     }
 
