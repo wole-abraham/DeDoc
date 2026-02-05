@@ -416,12 +416,12 @@ body {
     }
 
     .question-text {
-        font-size: 1rem;
+        font-size: 1.5rem;
         /* Also slightly reduce main question size for mobile */
     }
 
     .btn {
-        font-size: 0.85rem;
+        font-size: 0.65rem;
         padding: 0.6rem 0.8rem;
     }
 }
