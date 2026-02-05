@@ -330,7 +330,7 @@ async function runDiagnosis() {
     actionsContainer.innerHTML = '<div class="loader">Processing...</div>';
 
     try {
-        const response = await fetch('http://127.0.0.1:8000/diagnose', {
+        const response = await fetch('https://dedoc.devwole.space/diagnose', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ symptoms: Array.from(collectedSymptoms) })
