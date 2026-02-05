@@ -406,8 +406,8 @@ body {
 
     .logic-container {
         top: 1rem;
-        right: 120px;
-        /* Adjusted to sit next to the smaller fact base button */
+        right: 160px;
+        /* Increased spacing to prevent merging with Fact Base */
     }
 
     .fact-base-btn {
@@ -418,5 +418,10 @@ body {
     .question-text {
         font-size: 1.5rem;
         /* Also slightly reduce main question size for mobile */
+    }
+
+    .btn {
+        font-size: 0.85rem;
+        padding: 0.6rem 0.8rem;
     }
 }
