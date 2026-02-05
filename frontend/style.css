@@ -406,7 +406,7 @@ body {
 
     .logic-container {
         top: 1rem;
-        right: 1rem;
+        right: 135px;
         /* Increased spacing to prevent merging with Fact Base */
     }
 
