@@ -12,7 +12,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[""],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -22,6 +22,11 @@ app.add_middleware(
 
 class DiagnosisRequest(BaseModel):
     symptoms: List[str]
+
+@app.get("/")
+async def status():
+    return JSONResponse(status_code=200, content={"status": "good"})
+
 
 @app.post("/diagnose")
 async def diagnose(payload: DiagnosisRequest):
