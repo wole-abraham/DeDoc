@@ -311,7 +311,7 @@ body {
 }
 
 .btn-no {
-    background-color: #0284c766;
+    background-color: #ffffff;
     color: var(--primary-color);
     box-shadow: 6px 6px 0px var(--primary-color);
 }
