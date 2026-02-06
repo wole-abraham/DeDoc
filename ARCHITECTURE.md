@@ -3,36 +3,6 @@
 ## Overview
 DeDoc follows a **Client-Server** architecture where the frontend handles data collection via a decision tree, and the backend serves as a stateless expert system engine using First-Order Logic (FOL).
 
-```mermaid
-graph TD
-    subgraph Client ["Frontend (Web Interface)"]
-        UI["User Interface (HTML/CSS)"]
-        JS["Logic Controller (app.js)"]
-        DT["Decision Tree (Hardcoded Questions)"]
-    end
-
-    subgraph Server ["Backend (Python/FastAPI)"]
-        API["API Endpoint (POST /diagnose)"]
-        Engine["Inference Engine (Forward Chaining)"]
-        KB["Knowledge Base (Transient Facts)"]
-        Rules["Rule Set (Symbolic Logic)"]
-    end
-
-    User((User)) -->|Answers Questions| UI
-    UI -->|Input Events| JS
-    JS -->|Traverses| DT
-    DT -->|Collects Symptoms| JS
-    JS -->|POST symptoms| API
-    API -->|Initialize| KB
-    API -->|Run Inference| Engine
-    Engine -->|Query| KB
-    Engine -->|Apply Rules| Rules
-    Rules -->|New Facts - Diagnoses| KB
-    Engine -->|Results & Explanation| API
-    API -->|JSON Response| JS
-    JS -->|Render Results| UI
-```
-
 ## Component Details
 
 ### 1. Frontend (Client)
