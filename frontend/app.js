@@ -127,6 +127,7 @@ async function runDynamicDiagnosis() {
 
             // 1. Check for Diagnosis
             if (data.inferred_diseases.length > 0) {
+                updateFactDisplay(data.explanation);
                 showDiagnosis(data);
                 updateProgressBar(100);
                 return;
