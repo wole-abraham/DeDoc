@@ -18,7 +18,30 @@ const ALL_SYMPTOMS = new Set([
 let collectedSymptoms = new Set();
 let currentNodeId = 'root';
 
+// --- Progress Mapping ---
+const NODE_PROGRESS = {
+    'root': 10,
+    // Fever Branch
+    'fever_q1': 20, 'fever_pattern': 35, 'fever_sweat': 50, 'fever_chills': 65,
+    // Cough Branch
+    'cough_q1': 20, 'cough_type': 35, 'resp_distress': 50, 'chest_pain_q': 65, 'neuro_smell': 75,
+    // Other Branches
+    'chills_q1': 25, 'general_q1': 25,
+    // Convergence - Pain/Head
+    'pain_head': 60,
+    'head_neuro_1': 70, 'head_neuro_2': 80, 'pain_head_retro': 80,
+    // Body Pain
+    'pain_body': 70, 'pain_body_type': 80, 'fatigue_check': 85,
+    // GI
+    'stomach_check': 75, 'stomach_check_2': 85,
+    // Context
+    'context_onset': 90, 'context_exposure': 95, 'context_food': 98,
+    'final_review': 99,
+    'diagnose': 100
+};
+
 const questions = {
+
     // --- ROOT ---
     'root': {
         text: "What is your primary concern today?",
@@ -234,6 +257,8 @@ const loaderOverlay = document.getElementById('loader-overlay');
 const questionCard = document.getElementById('question-card');
 const questionText = document.getElementById('question-text');
 const actionsContainer = document.getElementById('actions-container');
+const progressBar = document.getElementById('progress-bar');
+
 
 const factBaseContainer = document.querySelector('.fact-base-container');
 const factBaseBtn = document.getElementById('fact-base-toggle');
@@ -273,12 +298,17 @@ function init() {
 
         renderNode('root');
         updateFactDisplay();
+        updateProgressBar('root');
+
 
     }, 2500);
 }
 
 function renderNode(nodeId) {
+    updateProgressBar(nodeId);
+
     if (nodeId === 'diagnose') {
+
         runDiagnosis();
         return;
     }
@@ -389,4 +419,10 @@ document.addEventListener('click', (e) => {
     }
 });
 
+function updateProgressBar(nodeId) {
+    const progress = NODE_PROGRESS[nodeId] || 10;
+    progressBar.style.width = `${progress}%`;
+}
+
 init();
+

@@ -391,6 +391,60 @@ body {
     opacity: 1;
 }
 
+
+/* Progress Bar Styles */
+.progress-container {
+    width: 100%;
+    max-width: 500px;
+    height: 12px;
+    /* Slightly thicker */
+    background-color: #cbd5e1;
+    border-radius: 6px;
+    margin: 0 auto 2rem auto;
+    overflow: hidden;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--primary-color);
+    /* Add border to make it pop */
+}
+
+.progress-bar {
+    height: 100%;
+    background-color: var(--primary-color);
+    width: 10%;
+    transition: width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+    /* Bouncy spring effect */
+    position: relative;
+    overflow: hidden;
+}
+
+/* Shimmer effect inside the bar */
+.progress-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Stronger white gradient for high visibility */
+    background: linear-gradient(90deg,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0.6) 50%,
+            rgba(255, 255, 255, 0) 100%);
+    transform: translateX(-100%);
+    animation: shimmer 2s infinite linear;
+    /* Slower, continuous flow */
+}
+
+@keyframes shimmer {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    100% {
+        transform: translateX(100%);
+    }
+}
+
 @media (max-width: 600px) {
     .logo {
         font-size: 1.2rem;
