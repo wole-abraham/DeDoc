@@ -6,28 +6,28 @@ DeDoc follows a **Client-Server** architecture where the frontend handles data c
 ```mermaid
 graph TD
     subgraph Client ["Frontend (Web Interface)"]
-        UI[User Interface (HTML/CSS)]
-        JS[Logic Controller (app.js)]
-        DT[Decision Tree (Hardcoded Questions)]
+        UI["User Interface (HTML/CSS)"]
+        JS["Logic Controller (app.js)"]
+        DT["Decision Tree (Hardcoded Questions)"]
     end
 
     subgraph Server ["Backend (Python/FastAPI)"]
-        API[API Endpoint (POST /diagnose)]
-        Engine[Inference Engine (Forward Chaining)]
-        KB[Knowledge Base (Transient Facts)]
-        Rules[Rule Set (Symbolic Logic)]
+        API["API Endpoint (POST /diagnose)"]
+        Engine["Inference Engine (Forward Chaining)"]
+        KB["Knowledge Base (Transient Facts)"]
+        Rules["Rule Set (Symbolic Logic)"]
     end
 
     User((User)) -->|Answers Questions| UI
     UI -->|Input Events| JS
     JS -->|Traverses| DT
     DT -->|Collects Symptoms| JS
-    JS -->|POST {symptoms}| API
+    JS -->|POST symptoms| API
     API -->|Initialize| KB
     API -->|Run Inference| Engine
     Engine -->|Query| KB
     Engine -->|Apply Rules| Rules
-    Rules -->|New Facts (Diagnoses)| KB
+    Rules -->|New Facts - Diagnoses| KB
     Engine -->|Results & Explanation| API
     API -->|JSON Response| JS
     JS -->|Render Results| UI
