@@ -1,33 +1,37 @@
 # First-Order Logic (FOL) Adherence Report
 
 ## Executive Summary
-**Status: Partial / Hybrid Implementation**
+**Status: ✅ FULLY COMPLIANT**
 
-The application successfully implements strict First-Order Logic (FOL) for the **diagnosis engine** (backend), but uses a **static decision tree** for data collection (frontend). While the final reasoning is sound and deterministic, the frontend collection method limits the flexibility of the expert system.
+The application has been successfully refactored to be a pure First-Order Logic (FOL) Expert System. The previous "static decision tree" limitation in the frontend has been replaced with a dynamic, logic-driven **Inquiry Engine**.
 
-## 1. Backend (Logic Engine) - `app/logic/rules.py`
+## 1. Backend (Logic Engine)
 **Status: ✅ STRICT FOL COMPLIANCE**
-The backend rules are implemented as rigid implications (`A ∧ B → C`), which is the core definition of First-Order Logic in expert systems.
 
-*   **Evidence**:
-    *   **Implication**: `IF systemic_illness AND respiratory AND acute AND muscle_pain THEN influenza`
-    *   **Negation**: `IF ... AND NOT fever THEN common_cold` (Correctly uses negation for differentiation).
-    *   **Quantification**: The code iterates over `candidates` (e.g., `for _, patient, _ in candidates`), which effectively implements Universal Quantification ($\forall x, Symptom(x) \to Diagnosis(x)$).
+*   **Declarative Rules**: Logic is defined in `app/logic/declarative_rules.py` as structured data (Knowledge Base), not imperative code.
+    *   Example: `Condition("has_symptom", "fever", True)` represents the predicate $HasSymptom(patient, fever)$.
+*   **Forward Chaining**: `app/logic/inference.py` iteratively applies rules to derive new facts (Diagnoses & Clinical States) until a fixed point is reached.
+*   **Backward Chaining (Inquiry)**: `app/logic/inquiry.py` introspection of the rule base determines the *next most useful question*. It identifies potential diagnoses that are not yet contradicted and queries for their missing premises.
 
-## 2. Frontend (Data Collection) - `frontend/app.js`
-**Status: ⚠️ STATIC DECISION TREE (NOT FOL DRIVEN)**
-The frontend forces the user down pre-determined paths. This is a "Decision Tree" structure, not a pure FOL inference engine.
+## 2. Frontend (Data Collection)
+**Status: ✅ DYNAMIC & LOGIC DRIVEN**
 
-*   **The Limitation**:
-    *   In a pure FOL system, the engine should ask the *next most useful question* based on what it knows (e.g., "I know you have a fever, now I need to check for rash specifically").
-    *   Currently, `app.js` runs a hardcoded script (`questions` object).
-    *   **Impact**: Even if the logic engine *could* diagnose a rare disease given symptoms X and Y, the frontend might never ask about symptom Y because it's not in the hardcoded path.
+The "Decision Tree" structure has been **removed**.
+*   **Dynamic Loop**: The frontend (`app.js`) now operates in a continuous input-processing loop:
+    1.  Send known facts (YES/NO) to Backend.
+    2.  Receive Logic Trace & Next Question.
+    3.  Render Question.
+    4.  Repeat.
+*   **Agility**: If a new rule is added to the backend (e.g., "Zika Virus requires Red Eyes"), the Inquiry Engine will *automatically* start asking about "Red Eyes" if the other symptoms align. No frontend code changes are required.
 
-## 3. Discrepancies & Risks
-1.  **Symptom Mapping**: The backend expects specific predicates like `intermittent_fever`. The frontend correctly maps "Comes and goes" to `intermittent_fever` (Line 46), which is good.
-2.  **Missing Flexibility**: If you add a new rule to the backend (e.g., for "Zika Virus"), it **will not** automatically work. You must also manually edit the `questions` object in `app.js` to ask about red eyes or rash. A pure FOL system would handle this dynamically.
+## 3. Comparison to Previous Version
+
+| Feature | Previous Version (Hybrid) | Current Version (Pure FOL) |
+| :--- | :--- | :--- |
+| **Reasoning** | FOL Forward Chaining | FOL Forward Chaining |
+| **Input Flow** | Static Hardcoded Tree | **Dynamic Inquiry Engine** |
+| **Negative Facts** | Ignored / Implicit | **Explicitly Tracked** (Users say "No") |
+| **Extensibility** | Difficult (Edit JS + Python) | **Easy** (Add Rule to KB only) |
 
 ## Conclusion
-Your system **does** follow FOL for the *reasoning* part (making the diagnosis), which ensures explainability and determinism. usage of the "Decision Tree" for input is a valid design choice for simplicity, but it decouples the input logic from the reasoning logic.
-
-**Verdict**: The system is a **Forward-Chaining Expert System** with a **Decision Tree Interface**.
+The system is now a robust, end-to-end Expert System. It collects data, reasons about it, and asks follow-up questions entirely based on its internal logical rules.
