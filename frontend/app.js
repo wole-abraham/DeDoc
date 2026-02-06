@@ -210,10 +210,10 @@ function updateFactDisplay(trace = null) {
 
     factsList.innerHTML = symList || "<li>No symptoms reported yet</li>";
 
-    if (trace) {
+    if (trace && trace.length > 0) {
         deducedList.innerHTML = trace.map(t => `<li>${t}</li>`).join('');
     } else {
-        deducedList.innerHTML = "<li>Waiting for analysis...</li>";
+        deducedList.innerHTML = "<li>No deductions yet...</li>";
     }
 }
 
