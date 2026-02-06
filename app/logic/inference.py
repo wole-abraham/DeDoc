@@ -1,42 +1,53 @@
-from app.logic.rules import Rules
+from app.logic.declarative_rules import RULES_KB
 from app.logic.facts import Facts
-
-import inspect
 
 class Inference():
     
     def __init__(self):
-        self.rules = [m[1] for m in inspect.getmembers(Rules, inspect.isfunction)]
+        self.rules = RULES_KB
 
     def infer(self, facts_instance):
         found_diagnoses = []
+        patient = "current_patient" # Assuming single patient context for now
         
-        # Iterative Forward Chaining (Fixed Point)
-        # We loop until no new facts are derived.
         while True:
             new_facts_added = False
             
             for rule in self.rules:
-                # Rules yield tuples like ("diagnosis", "User", "dengue")
-                results = rule(facts_instance)
-                if results:
-                    for res in results:
-                        # If simple diagnosis, we just track it
-                        # If it's an intermediate fact/warning, we add it back to DB
-                        predicate, subject, object_val = res
+                # Check if all conditions are met
+                conditions_met = True
+                
+                for cond in rule.conditions:
+                    # Construct query
+                    p = cond.predicate
+                    o = cond.object_val
+                    
+                    # Check existence in KB
+                    exists = facts_instance.exists(p, patient, o)
+                    
+                    # Logic: 
+                    # If cond.truth_value is True -> We NEED it to exist
+                    # If cond.truth_value is False -> We NEED it to NOT exist
+                    if cond.truth_value and not exists:
+                        conditions_met = False
+                        break
+                    if not cond.truth_value and exists:
+                        conditions_met = False
+                        break
+                
+                if conditions_met:
+                    # Apply consequence
+                    conseq_p, conseq_o = rule.consequence
+                    
+                    if not facts_instance.exists(conseq_p, patient, conseq_o):
+                        facts_instance.add_fact(conseq_p, patient, conseq_o)
+                        new_facts_added = True
                         
-                        # Check existance to avoid infinite loops or duplicates
-                        if not facts_instance.exists(predicate, subject, object_val):
-                            facts_instance.add_fact(predicate, subject, object_val)
-                            new_facts_added = True
-                            
-                            # Log valid output
-                            if predicate == "diagnosis" or predicate == "warning" or predicate == "alert" or predicate == "risk":
-                                found_diagnoses.append(res)
+                        # Log diagnosis
+                        if conseq_p == "possible_diagnosis":
+                            found_diagnoses.append((conseq_p, patient, conseq_o))
             
             if not new_facts_added:
                 break
         
-        # Deduplicate results
         return list(set(found_diagnoses))
-

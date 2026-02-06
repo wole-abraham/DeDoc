@@ -1,0 +1,14 @@
+[
+    "fever", "cough", "headache", "chills", "fatigue",
+    "body_pain", "nausea", "sweating",
+    "high_fever", "intermittent_fever",
+    "dry_cough", "productive_cough",
+    "retro_orbital_pain", "joint_pain", "muscle_pain",
+    "abdominal_pain", "diarrhea", "vomiting", "rash",
+    "shortness_of_breath", "chest_pain", "congestion",
+    "sensitivity_light", "stiff_neck", "facial_pressure",
+    "loss_of_smell", "severe_diarrhea",
+    "sudden_onset", "gradual_onset",
+    "mosquito_exposure", "recent_travel", "unsafe_food_exposure", "sick_contact",
+    "severe_headache"
+]
