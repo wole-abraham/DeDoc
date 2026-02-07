@@ -1,5 +1,5 @@
 
-const API_URL = "http://127.0.0.1:8000"; // Assuming backend is on default port
+const API_URL = "https://dedoc.devwole.space";
 let currentSymptoms = [];
 let currentSymptomsNo = [];
 let lastQuestionSymptom = null;
