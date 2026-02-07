@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DeDoc</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="chat.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 </head>
 
@@ -178,6 +179,39 @@
         </div>
     </div>
 
+    <!-- Chat Interface -->
+    <button id="chat-toggle-btn" class="chat-toggle-btn">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z" />
+        </svg>
+    </button>
+
+    <div id="chat-container" class="chat-container hidden">
+        <div class="chat-header">
+            <span>DeDoc Assistant</span>
+            <button id="chat-close-btn" class="chat-close-btn">&times;</button>
+        </div>
+
+        <div id="extracted-info" class="extracted-info">
+            <!-- Symptoms will be extracted here -->
+        </div>
+
+        <div id="chat-messages" class="chat-messages">
+            <!-- Messages go here -->
+        </div>
+
+        <div class="chat-input-area">
+            <input type="text" id="chat-input" class="chat-input" placeholder="Type your symptoms..."
+                autocomplete="off">
+            <button id="send-btn" class="send-btn">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <script src="chat.js"></script>
     <script src="app.js"></script>
 </body>
 
