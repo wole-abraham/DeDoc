@@ -9,11 +9,11 @@ import re
 from app.logic.facts import Facts
 from app.logic.inference import Inference
 from app.logic.inquiry import InquiryEngine
-from app.nlp.parser import SymptomParser
+
 
 app = FastAPI()
 
-symptom_parser = SymptomParser()
+
 
 app.add_middleware(
     CORSMiddleware,
