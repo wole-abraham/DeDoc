@@ -1,0 +1,181 @@
+DeDoc Technical Documentation
+
+Live_Link: https://de-doc.vercel.app/
+GitHub_repo: https://github.com/wole-abraham/DeDoc
+
+System Overview
+
+DeDoc is a web-based expert system built on First-Order Logic (FOL) to assist with medical diagnosis. Instead of using statistical or machine learning approaches, DeDoc relies on deterministic, rule-based reasoning. Diagnoses are derived strictly from explicitly encoded medical rules, making the system transparent and explainable.
+
+Key Features
+
+Deterministic Reasoning
+The system produces deterministic outcomes based solely on rule satisfaction. A diagnosis is returned only when all required conditions of a rule are met.
+
+Explainability
+All inferred facts and diagnoses can be traced back to the symptoms provided by the user and the specific rules that fired during inference.
+
+Dynamic Inquiry
+When no diagnosis can be inferred, the system determines the next most informative question by analyzing unmet rule conditions rather than following a predefined decision tree.
+
+Architecture
+
+DeDoc follows a client–server architecture.
+
+Frontend Responsibilities
+- Collect symptom information from the user
+- Send structured symptom data to the backend
+- Display diagnoses, explanations, or follow-up questions
+
+Backend Responsibilities
+- Maintain a temporary knowledge base
+- Perform logical inference
+- Determine diagnoses or generate follow-up questions
+
+Technology Stack
+
+Frontend
+HTML5
+CSS
+JavaScript
+
+Backend
+Python 3.10 or higher
+FastAPI
+
+Communication
+REST API using JSON payloads
+
+Data Flow
+
+1. The user interacts with the frontend by answering symptom-related questions.
+2. The frontend converts responses into structured symptom identifiers.
+3. The frontend sends the data to the backend through the POST /diagnose endpoint.
+4. The backend loads the symptoms into a temporary in-memory knowledge base.
+5. The inference engine evaluates all declarative rules using forward chaining.
+6. If a diagnosis is inferred, it is returned to the frontend.
+7. If no diagnosis can be inferred, the inquiry engine determines the most informative next question.
+8. The backend sends either a diagnosis or a follow-up question to the frontend.
+
+Core Logic Modules
+
+Knowledge Base (app/logic/facts.py)
+
+The knowledge base is a transient, in-memory store that holds facts for the current session only.
+
+Fact structure:
+(predicate, subject, object)
+
+Example:
+("has_symptom", "patient_01", "fever")
+
+The system follows a closed-world assumption for explicitly denied symptoms. A symptom is considered unknown unless the user states that it is present or absent.
+
+Declarative Rules (app/logic/declarative_rules.py)
+
+Declarative rules encode medical knowledge as strict logical implications.
+
+Rule structure:
+Rule(name, consequence, conditions)
+
+Each rule contains:
+- A unique name
+- A single consequence
+- A list of conditions that must all be satisfied (logical AND)
+
+Example rule:
+
+Rule(
+"diag_flu",
+("possible_diagnosis", "influenza"),
+[
+Condition("has_symptom", "fever"),
+Condition("has_symptom", "cough")
+]
+)
+
+All conditions implicitly assume the same subject (the patient).
+
+Inference Engine (app/logic/inference.py)
+
+The inference engine implements forward chaining.
+
+Algorithm:
+1. Load all known facts into the knowledge base.
+2. Iterate through all declarative rules.
+3. If all conditions of a rule are satisfied by the current facts, add the rule’s consequence to the knowledge base.
+4. Repeat until no new facts can be derived (fixed point reached).
+
+Facts are stored using set-like semantics to prevent duplication.
+
+Inquiry Engine (app/logic/procedural.py)
+
+The inquiry engine performs goal-directed rule inspection when inference is inconclusive.
+
+Purpose:
+To reduce uncertainty by identifying the most informative missing symptom.
+
+Algorithm:
+1. Identify all rules that conclude a possible diagnosis.
+2. Eliminate rules that are contradicted by known negative symptoms.
+3. Collect all unmet conditions from the remaining viable rules.
+4. Count the frequency of each missing condition.
+5. Select the most frequent missing condition as the next question.
+
+This selection strategy is heuristic-based and does not guarantee optimal questioning.
+
+API Specification
+
+POST /diagnose
+
+Request payload example:
+
+{
+  "symptoms": ["fever", "cough"],
+  "symptoms_no": ["headache"]
+}
+
+Response payload example (diagnosis found):
+
+{
+  "status": "completed",
+  "inferred_diseases": ["influenza"],
+  "clinical_states": ["systemic_illness"],
+  "explanation": [
+    "CLINICAL STATE: SYSTEMIC ILLNESS",
+    "POSSIBLE DIAGNOSIS: INFLUENZA"
+  ],
+  "next_question": null
+}
+
+If no diagnosis can be inferred, the response includes a next_question field containing the most relevant unanswered symptom.
+
+Development Setup
+
+Prerequisites
+- Python 3.10 or higher
+- pip package manager
+
+Installation Steps
+
+1. Clone the repository:
+git clone https://github.com/wole-abraham/dedoc.git
+cd dedoc
+
+2. Create and activate a virtual environment:
+python -m venv venv
+source venv/bin/activate
+On Windows: venv\Scripts\activate
+
+3. Install dependencies:
+pip install -r requirements.txt
+
+Running the Development Server
+
+uvicorn app.main:app --reload
+
+The API will be available at:
+http://dedoc.devwole.space -- deployed
+http://127.0.0.1:8000/diagnose -- Locally
+
+

@@ -13,10 +13,7 @@ class Facts():
         return list(self.facts)
     
     def query(self, predicate=None, subject=None, object_val=None):
-        """
-        Simple pattern matching. None acts as a wildcard (variable).
-        Returns a list of matching facts.
-        """
+        
         results = []
         for fact in self.facts:
             p, s, o = fact

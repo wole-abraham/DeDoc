@@ -1,8 +1,6 @@
-
 import sys
 import os
 
-# Add parent directory to path to import app modules
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from app.logic.inference import Inference
@@ -45,7 +43,7 @@ def run_tests():
         {
             "id": "TC-06",
             "disease": "Food Poisoning",
-            "symptoms": ["vomiting", "sudden_onset", "unsafe_food_exposure"], # Note: unexpected input says "Unsafe Food" but system usually expects "unsafe_food_exposure"
+            "symptoms": ["vomiting", "sudden_onset", "unsafe_food_exposure"], 
             "expected_diagnosis": "food_poisoning"
         },
         {
@@ -62,17 +60,10 @@ def run_tests():
 
     for case in test_cases:
         facts = Facts()
-        # Add symptoms
         for symptom in case["symptoms"]:
             facts.add_fact("has_symptom", "current_patient", symptom)
         
-        # Run inference
         results = inference_engine.infer(facts)
-        
-        # Check if diagnosis is found
-        # results logic in inference.py is: found_diagnoses.append((conseq_p, patient, conseq_o))
-        # but the function returns list(set(found_diagnoses))
-        # So results is a list of tuples like [('possible_diagnosis', 'current_patient', 'influenza'), ...]
         
         diagnoses = [diagnosis for pred, subj, diagnosis in results if pred == "possible_diagnosis"]
         
