@@ -1,5 +1,5 @@
 Dataset: Symptoms and Diagnoses
-Generated from logic rules.
+Bases on logic rules.
 
 Diagnosis: Influenza
 Symptoms: fever, fatigue, muscle_pain, sudden_onset, cough
