@@ -100,5 +100,61 @@ RULES_KB = [
         Condition("derived_fact", "gastrointestinal_involvement"),
         Condition("has_symptom", "sudden_onset"),
         Condition("has_symptom", "unsafe_food_exposure")
+    ]),
+
+    # --- New Diagnoses ---
+
+    Rule("diag_allergies", ("possible_diagnosis", "allergies"), [
+        Condition("has_symptom", "sneezing"),
+        Condition("has_symptom", "itchy_eyes"),
+        Condition("has_symptom", "runny_nose"),
+        Condition("has_symptom", "fever", False)  # No fever
+    ]),
+
+    Rule("diag_sinusitis", ("possible_diagnosis", "sinusitis"), [
+        Condition("has_symptom", "facial_pain"),
+        Condition("has_symptom", "headache"),
+        Condition("has_symptom", "nasal_congestion"),
+        Condition("has_symptom", "fever")
+    ]),
+
+    Rule("diag_gerd", ("possible_diagnosis", "gerd"), [
+        Condition("has_symptom", "heartburn"),
+        Condition("has_symptom", "acid_reflux"),
+        Condition("has_symptom", "difficulty_swallowing")
+    ]),
+
+    Rule("diag_migraine", ("possible_diagnosis", "migraine"), [
+        Condition("has_symptom", "severe_headache"),
+        Condition("has_symptom", "nausea"),
+        Condition("has_symptom", "sensitivity_light"),
+        Condition("has_symptom", "visual_aura")
+    ]),
+
+    Rule("diag_tuberculosis", ("possible_diagnosis", "tuberculosis"), [
+        Condition("has_symptom", "persistent_cough"),
+        Condition("has_symptom", "weight_loss"),
+        Condition("has_symptom", "night_sweats"),
+        Condition("has_symptom", "fever")
+    ]),
+
+    Rule("diag_chickenpox", ("possible_diagnosis", "chickenpox"), [
+        Condition("has_symptom", "itchy_rash"),
+        Condition("has_symptom", "fever"),
+        Condition("has_symptom", "fatigue")
+    ]),
+
+    Rule("diag_measles", ("possible_diagnosis", "measles"), [
+        Condition("has_symptom", "high_fever"),
+        Condition("has_symptom", "cough"),
+        Condition("has_symptom", "runny_nose"),
+        Condition("has_symptom", "rash")
+    ]),
+
+    Rule("diag_strep_throat", ("possible_diagnosis", "strep_throat"), [
+        Condition("has_symptom", "sore_throat"),
+        Condition("has_symptom", "fever"),
+        Condition("has_symptom", "swollen_nodes"),
+        Condition("has_symptom", "cough", False)  # Usually no cough
     ])
 ]

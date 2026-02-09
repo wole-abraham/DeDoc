@@ -1,6 +1,18 @@
 from app.logic.declarative_rules import RULES_KB, Condition
 from collections import Counter
 
+# Define reverse implications for partial matching
+# If we have the value on the RIGHT, we partially satisfy the requirement on the LEFT.
+IMPLICATIONS = {
+    "dry_cough": "cough",
+    "productive_cough": "cough",
+    "high_fever": "fever",
+    "intermittent_fever": "fever",
+    "severe_headache": "headache",
+    "severe_diarrhea": "diarrhea",
+    "retro_orbital_pain": "headache"
+}
+
 class InquiryEngine:
     def __init__(self):
         self.rules = RULES_KB
@@ -38,6 +50,9 @@ class InquiryEngine:
             return None
 
         best_score = scored_candidates[0]["score"]
+        # If best score is 0, we still want to explore, but maybe we should prioritize
+        # missing symptoms that are "related" to what we have? 
+        # For now, just taking top candidates is fine as long as partial matching works.
         top_candidates = [c for c in scored_candidates if c["score"] >= best_score - 0.01] 
         
         all_missing = []
@@ -52,7 +67,7 @@ class InquiryEngine:
 
     def _scan_rule(self, rule, facts_db, patient, visited):
         missing_leafs = []
-        match_count = 0
+        match_count = 0.0 # Float for partials
         total_count = 0
         
         for cond in rule.conditions:
@@ -68,9 +83,15 @@ class InquiryEngine:
             if target_truth:
                 if is_false: return None
                 if is_true: 
-                    match_count += 1
+                    match_count += 1.0
                     total_count += 1
                     continue
+                
+                # Check Partial Match (e.g. Have headache, need severe_headache)
+                if p == "has_symptom" and o in IMPLICATIONS:
+                    general_symptom = IMPLICATIONS[o]
+                    if facts_db.exists("has_symptom", patient, general_symptom):
+                        match_count += 0.5 # Partial credit
                 
                 if p == "has_symptom":
                     missing_leafs.append(o)
@@ -100,7 +121,7 @@ class InquiryEngine:
             else:
                 if is_true: return None
                 if is_false:
-                    match_count += 1
+                    match_count += 1.0
                     total_count += 1
                     continue
                 

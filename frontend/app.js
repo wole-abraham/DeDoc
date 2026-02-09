@@ -135,7 +135,7 @@ async function runDynamicDiagnosis() {
 
             // 2. Check for Next Question
             if (data.next_question) {
-                renderDynamicQuestion(data.next_question);
+                renderDynamicQuestion(data.next_question, data.next_question_text);
             } else {
                 // No diagnosis, no more questions
                 showInconclusive(data);
@@ -151,10 +151,23 @@ async function runDynamicDiagnosis() {
     }, 400); // Small UI delay for smoothness
 }
 
-function renderDynamicQuestion(symptomRaw) {
-    // Format text
-    const fmt = symptomRaw.replace(/_/g, " ");
-    questionText.textContent = `Do you have ${fmt}?`;
+const QUESTION_MAPPING = {
+    // Legacy fallback, we prioritize backend text now
+};
+
+function renderDynamicQuestion(symptomRaw, serverText) {
+    // 1. Prioritize Server Text
+    if (serverText) {
+        questionText.textContent = serverText;
+    }
+    // 2. Fallback to local mapping (if any)
+    else if (QUESTION_MAPPING[symptomRaw]) {
+        questionText.textContent = QUESTION_MAPPING[symptomRaw];
+    } else {
+        // Format text generic
+        const fmt = symptomRaw.replace(/_/g, " ");
+        questionText.textContent = `Do you have ${fmt}?`;
+    }
 
     actionsContainer.innerHTML = '';
 

@@ -1,0 +1,57 @@
+Dataset: Symptoms and Diagnoses
+Generated from logic rules.
+
+Diagnosis: Influenza
+Symptoms: fever, fatigue, muscle_pain, sudden_onset, cough
+Symptoms: fever, fatigue, muscle_pain, sudden_onset, shortness_of_breath
+
+Diagnosis: Pneumonia
+Symptoms: high_fever, shortness_of_breath, chest_pain
+
+Diagnosis: Common Cold
+Symptoms: gradual_onset, cough
+(Note: Absent fever, Absent shortness_of_breath)
+
+Diagnosis: Covid19
+Symptoms: fever, dry_cough, loss_of_smell
+
+Diagnosis: Meningitis
+Symptoms: stiff_neck, sensitivity_light, high_fever, severe_headache
+
+Diagnosis: Malaria
+Symptoms: fever, chills, sweating, mosquito_exposure
+Symptoms: fever, chills, sweating, intermittent_fever
+
+Diagnosis: Dengue
+Symptoms: fever, mosquito_exposure, severe_headache, retro_orbital_pain
+Symptoms: fever, mosquito_exposure, severe_headache, joint_pain
+
+Diagnosis: Food Poisoning
+Symptoms: sudden_onset, unsafe_food_exposure, vomiting
+Symptoms: sudden_onset, unsafe_food_exposure, diarrhea
+
+Diagnosis: Allergies
+Symptoms: sneezing, itchy_eyes, runny_nose
+(Note: Absent fever)
+
+Diagnosis: Sinusitis
+Symptoms: facial_pain, headache, nasal_congestion, fever
+
+Diagnosis: GERD (Gastroesophageal Reflux Disease)
+Symptoms: heartburn, acid_reflux, difficulty_swallowing
+
+Diagnosis: Migraine
+Symptoms: severe_headache, nausea, sensitivity_light, visual_aura
+
+Diagnosis: Tuberculosis
+Symptoms: persistent_cough, weight_loss, night_sweats, fever
+
+Diagnosis: Chickenpox
+Symptoms: itchy_rash, fever, fatigue
+
+Diagnosis: Measles
+Symptoms: high_fever, cough, runny_nose, rash
+
+Diagnosis: Strep Throat
+Symptoms: sore_throat, fever, swollen_nodes
+(Note: Absent cough)

@@ -1,0 +1,9 @@
+1. Install  python 3.10+
+2. Open terminal in the folder (powershell)
+3. create a virtual environment using "python -m venv venv"
+4. Activate the Environment ".\venv\Scripts\activate" in the terminal
+5. Install requirements.txt using "pip install -r requirements.txt" in the terminal
+6. run "fastapi dev" in terminal
+7. open the frontend folder and run the index.html
+
+Enjoy
